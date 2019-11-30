@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tingyu.erp.mapper.EmployeeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tingyu.erp.entities.Employee">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="emp_id" jdbcType="CHAR" property="empId" />
+		<result column="user_name" jdbcType="VARCHAR"
+			property="userName" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="emp_name" jdbcType="VARCHAR" property="empName" />
+		<result column="gender" jdbcType="CHAR" property="gender" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="phone" jdbcType="CHAR" property="phone" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="age" jdbcType="TINYINT" property="age" />
+		<result column="birth" jdbcType="DATE" property="birth" />
+		<result column="id_number" jdbcType="CHAR" property="idNumber" />
+		<result column="education" jdbcType="BIT" property="education" />
+		<result column="institution" jdbcType="VARCHAR"
+			property="institution" />
+		<result column="major" jdbcType="VARCHAR" property="major" />
+		<result column="graduation_date" jdbcType="SMALLINT"
+			property="graduationDate" />
+		<result column="nationality" jdbcType="VARCHAR"
+			property="nationality" />
+		<result column="political" jdbcType="TINYINT"
+			property="political" />
+		<result column="maried" jdbcType="CHAR" property="maried" />
+		<result column="linkman" jdbcType="VARCHAR" property="linkman" />
+		<result column="linkman_relation" jdbcType="BIT"
+			property="linkmanRelation" />
+		<result column="linkman_phone" jdbcType="CHAR"
+			property="linkmanPhone" />
+		<result column="native_place" jdbcType="VARCHAR"
+			property="nativePlace" />
+		<result column="leader_id" jdbcType="CHAR" property="leaderId" />
+		<result column="dept_id" jdbcType="CHAR" property="deptId" />
+		<result column="gmt_create" jdbcType="TIMESTAMP"
+			property="gmtCreate" />
+		<result column="gmt_modified" jdbcType="TIMESTAMP"
+			property="gmtModified" />
+	</resultMap>
+	<!-- 自定义返回带有部门信息的员工map集合 -->
+	<resultMap id="BaseResultMapWithDept"
+		type="com.tingyu.erp.entities.Employee">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="emp_id" jdbcType="CHAR" property="empId" />
+		<result column="user_name" jdbcType="VARCHAR"
+			property="userName" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="emp_name" jdbcType="VARCHAR" property="empName" />
+		<result column="gender" jdbcType="CHAR" property="gender" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="phone" jdbcType="CHAR" property="phone" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="age" jdbcType="TINYINT" property="age" />
+		<result column="birth" jdbcType="DATE" property="birth" />
+		<result column="id_number" jdbcType="CHAR" property="idNumber" />
+		<result column="education" jdbcType="BIT" property="education" />
+		<result column="institution" jdbcType="VARCHAR"
+			property="institution" />
+		<result column="major" jdbcType="VARCHAR" property="major" />
+		<result column="graduation_date" jdbcType="SMALLINT"
+			property="graduationDate" />
+		<result column="nationality" jdbcType="VARCHAR"
+			property="nationality" />
+		<result column="political" jdbcType="TINYINT"
+			property="political" />
+		<result column="maried" jdbcType="CHAR" property="maried" />
+		<result column="linkman" jdbcType="VARCHAR" property="linkman" />
+		<result column="linkman_relation" jdbcType="BIT"
+			property="linkmanRelation" />
+		<result column="linkman_phone" jdbcType="CHAR"
+			property="linkmanPhone" />
+		<result column="native_place" jdbcType="VARCHAR"
+			property="nativePlace" />
+		<result column="leader_id" jdbcType="CHAR" property="leaderId" />
+		<result column="dept_id" jdbcType="CHAR" property="deptId" />
+		<result column="gmt_create" jdbcType="TIMESTAMP"
+			property="gmtCreate" />
+		<result column="gmt_modified" jdbcType="TIMESTAMP"
+			property="gmtModified" />
+		<association property="dept"
+			javaType="com.tingyu.erp.entities.Department">
+			<id column="id" jdbcType="BIGINT" property="id" />
+			<result column="dept_id" jdbcType="CHAR" property="deptId" />
+			<result column="dept_name" jdbcType="VARCHAR"
+				property="deptName" />
+			<result column="manager_id" jdbcType="CHAR"
+				property="managerId" />
+			<result column="create_date" jdbcType="DATE"
+				property="createDate" />
+			<result column="dept_tel" jdbcType="VARCHAR"
+				property="deptTel" />
+			<result column="parent_id" jdbcType="CHAR" property="parentId" />
+			<result column="gmt_create" jdbcType="TIMESTAMP"
+				property="gmtCreate" />
+			<result column="gmt_modified" jdbcType="TIMESTAMP"
+				property="gmtModified" />
+		</association>
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, emp_id, user_name, password, emp_name, gender, email,
+		phone, address,
+		age, birth,
+		id_number, education, institution, major,
+		graduation_date, nationality,
+		political,
+		maried, linkman,
+		linkman_relation, linkman_phone, native_place, leader_id,
+		dept_id,
+		gmt_create, gmt_modified
+	</sql>
+	<select id="selectByExample"
+		parameterType="com.tingyu.erp.entities.EmployeeExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from erp_employee
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erp_employee
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<!--返回所有带部门信息的员工 -->
+	<select id="selectAllWithDept" resultMap="BaseResultMapWithDept">
+		select
+		<include refid="Base_Column_List" />
+		from erp_employee e left join erp_department d on e.dept_id=d.dept_id
+	</select>
+	<select id="selectByEmpIdWithDept"
+		parameterType="java.lang.String" resultMap="BaseResultMapWithDept">
+		select
+		e.id, emp_id, user_name, password, emp_name, gender, email,
+		phone, address,
+		age, birth,
+		id_number, education, institution, major,
+		graduation_date, nationality,
+		political,
+		maried, linkman,
+		linkman_relation, linkman_phone, native_place, leader_id,
+		e.dept_id,
+		e.gmt_create, e.gmt_modified
+		from erp_employee e left join erp_department d on e.dept_id=d.dept_id
+		where emp_id = #{empId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		erp_employee
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.tingyu.erp.entities.EmployeeExample">
+		delete from erp_employee
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="deleteByEmpIds" parameterType="java.util.List">
+		delete from erp_employee
+		where emp_id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteEmpByEmpId" parameterType="java.lang.String">
+		delete from
+		erp_employee
+		where emp_id = #{empId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tingyu.erp.entities.Employee">
+		insert into erp_employee (id, emp_id, user_name,
+		password, emp_name, gender,
+		email, phone, address,
+		age, birth,
+		id_number, education,
+		institution, major, graduation_date,
+		nationality,
+		political, maried,
+		linkman, linkman_relation, linkman_phone,
+		native_place, leader_id, dept_id,
+		gmt_create, gmt_modified)
+		values
+		(#{id,jdbcType=BIGINT}, #{empId,jdbcType=CHAR},
+		#{userName,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{empName,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR},
+		#{email,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR},
+		#{address,jdbcType=VARCHAR},
+		#{age,jdbcType=TINYINT},
+		#{birth,jdbcType=DATE}, #{idNumber,jdbcType=CHAR},
+		#{education,jdbcType=BIT},
+		#{institution,jdbcType=VARCHAR},
+		#{major,jdbcType=VARCHAR}, #{graduationDate,jdbcType=SMALLINT},
+		#{nationality,jdbcType=VARCHAR}, #{political,jdbcType=TINYINT},
+		#{maried,jdbcType=CHAR},
+		#{linkman,jdbcType=VARCHAR},
+		#{linkmanRelation,jdbcType=BIT}, #{linkmanPhone,jdbcType=CHAR},
+		#{nativePlace,jdbcType=VARCHAR}, #{leaderId,jdbcType=CHAR},
+		#{deptId,jdbcType=CHAR},
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		#{gmtModified,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tingyu.erp.entities.Employee">
+		insert into erp_employee
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="empId != null">
+				emp_id,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="empName != null">
+				emp_name,
+			</if>
+			<if test="gender != null">
+				gender,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="birth != null">
+				birth,
+			</if>
+			<if test="idNumber != null">
+				id_number,
+			</if>
+			<if test="education != null">
+				education,
+			</if>
+			<if test="institution != null">
+				institution,
+			</if>
+			<if test="major != null">
+				major,
+			</if>
+			<if test="graduationDate != null">
+				graduation_date,
+			</if>
+			<if test="nationality != null">
+				nationality,
+			</if>
+			<if test="political != null">
+				political,
+			</if>
+			<if test="maried != null">
+				maried,
+			</if>
+			<if test="linkman != null">
+				linkman,
+			</if>
+			<if test="linkmanRelation != null">
+				linkman_relation,
+			</if>
+			<if test="linkmanPhone != null">
+				linkman_phone,
+			</if>
+			<if test="nativePlace != null">
+				native_place,
+			</if>
+			<if test="leaderId != null">
+				leader_id,
+			</if>
+			<if test="deptId != null">
+				dept_id,
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create,
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="empId != null">
+				#{empId,jdbcType=CHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="empName != null">
+				#{empName,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				#{gender,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=CHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=TINYINT},
+			</if>
+			<if test="birth != null">
+				#{birth,jdbcType=DATE},
+			</if>
+			<if test="idNumber != null">
+				#{idNumber,jdbcType=CHAR},
+			</if>
+			<if test="education != null">
+				#{education,jdbcType=BIT},
+			</if>
+			<if test="institution != null">
+				#{institution,jdbcType=VARCHAR},
+			</if>
+			<if test="major != null">
+				#{major,jdbcType=VARCHAR},
+			</if>
+			<if test="graduationDate != null">
+				#{graduationDate,jdbcType=SMALLINT},
+			</if>
+			<if test="nationality != null">
+				#{nationality,jdbcType=VARCHAR},
+			</if>
+			<if test="political != null">
+				#{political,jdbcType=TINYINT},
+			</if>
+			<if test="maried != null">
+				#{maried,jdbcType=CHAR},
+			</if>
+			<if test="linkman != null">
+				#{linkman,jdbcType=VARCHAR},
+			</if>
+			<if test="linkmanRelation != null">
+				#{linkmanRelation,jdbcType=BIT},
+			</if>
+			<if test="linkmanPhone != null">
+				#{linkmanPhone,jdbcType=CHAR},
+			</if>
+			<if test="nativePlace != null">
+				#{nativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="leaderId != null">
+				#{leaderId,jdbcType=CHAR},
+			</if>
+			<if test="deptId != null">
+				#{deptId,jdbcType=CHAR},
+			</if>
+			<if test="gmtCreate != null">
+				#{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				#{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.tingyu.erp.entities.EmployeeExample"
+		resultType="java.lang.Long">
+		select count(*) from erp_employee
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update erp_employee
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=BIGINT},
+			</if>
+			<if test="record.empId != null">
+				emp_id = #{record.empId,jdbcType=CHAR},
+			</if>
+			<if test="record.userName != null">
+				user_name = #{record.userName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.password != null">
+				password = #{record.password,jdbcType=VARCHAR},
+			</if>
+			<if test="record.empName != null">
+				emp_name = #{record.empName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.gender != null">
+				gender = #{record.gender,jdbcType=CHAR},
+			</if>
+			<if test="record.email != null">
+				email = #{record.email,jdbcType=VARCHAR},
+			</if>
+			<if test="record.phone != null">
+				phone = #{record.phone,jdbcType=CHAR},
+			</if>
+			<if test="record.address != null">
+				address = #{record.address,jdbcType=VARCHAR},
+			</if>
+			<if test="record.age != null">
+				age = #{record.age,jdbcType=TINYINT},
+			</if>
+			<if test="record.birth != null">
+				birth = #{record.birth,jdbcType=DATE},
+			</if>
+			<if test="record.idNumber != null">
+				id_number = #{record.idNumber,jdbcType=CHAR},
+			</if>
+			<if test="record.education != null">
+				education = #{record.education,jdbcType=BIT},
+			</if>
+			<if test="record.institution != null">
+				institution = #{record.institution,jdbcType=VARCHAR},
+			</if>
+			<if test="record.major != null">
+				major = #{record.major,jdbcType=VARCHAR},
+			</if>
+			<if test="record.graduationDate != null">
+				graduation_date =
+				#{record.graduationDate,jdbcType=SMALLINT},
+			</if>
+			<if test="record.nationality != null">
+				nationality = #{record.nationality,jdbcType=VARCHAR},
+			</if>
+			<if test="record.political != null">
+				political = #{record.political,jdbcType=TINYINT},
+			</if>
+			<if test="record.maried != null">
+				maried = #{record.maried,jdbcType=CHAR},
+			</if>
+			<if test="record.linkman != null">
+				linkman = #{record.linkman,jdbcType=VARCHAR},
+			</if>
+			<if test="record.linkmanRelation != null">
+				linkman_relation =
+				#{record.linkmanRelation,jdbcType=BIT},
+			</if>
+			<if test="record.linkmanPhone != null">
+				linkman_phone = #{record.linkmanPhone,jdbcType=CHAR},
+			</if>
+			<if test="record.nativePlace != null">
+				native_place = #{record.nativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="record.leaderId != null">
+				leader_id = #{record.leaderId,jdbcType=CHAR},
+			</if>
+			<if test="record.deptId != null">
+				dept_id = #{record.deptId,jdbcType=CHAR},
+			</if>
+			<if test="record.gmtCreate != null">
+				gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.gmtModified != null">
+				gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update erp_employee
+		set id = #{record.id,jdbcType=BIGINT},
+		emp_id =
+		#{record.empId,jdbcType=CHAR},
+		user_name =
+		#{record.userName,jdbcType=VARCHAR},
+		password =
+		#{record.password,jdbcType=VARCHAR},
+		emp_name =
+		#{record.empName,jdbcType=VARCHAR},
+		gender =
+		#{record.gender,jdbcType=CHAR},
+		email =
+		#{record.email,jdbcType=VARCHAR},
+		phone =
+		#{record.phone,jdbcType=CHAR},
+		address =
+		#{record.address,jdbcType=VARCHAR},
+		age =
+		#{record.age,jdbcType=TINYINT},
+		birth = #{record.birth,jdbcType=DATE},
+		id_number = #{record.idNumber,jdbcType=CHAR},
+		education =
+		#{record.education,jdbcType=BIT},
+		institution =
+		#{record.institution,jdbcType=VARCHAR},
+		major =
+		#{record.major,jdbcType=VARCHAR},
+		graduation_date =
+		#{record.graduationDate,jdbcType=SMALLINT},
+		nationality =
+		#{record.nationality,jdbcType=VARCHAR},
+		political =
+		#{record.political,jdbcType=TINYINT},
+		maried =
+		#{record.maried,jdbcType=CHAR},
+		linkman =
+		#{record.linkman,jdbcType=VARCHAR},
+		linkman_relation =
+		#{record.linkmanRelation,jdbcType=BIT},
+		linkman_phone =
+		#{record.linkmanPhone,jdbcType=CHAR},
+		native_place =
+		#{record.nativePlace,jdbcType=VARCHAR},
+		leader_id =
+		#{record.leaderId,jdbcType=CHAR},
+		dept_id =
+		#{record.deptId,jdbcType=CHAR},
+		gmt_create =
+		#{record.gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modified =
+		#{record.gmtModified,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tingyu.erp.entities.Employee">
+		update erp_employee
+		<set>
+			<if test="empId != null">
+				emp_id = #{empId,jdbcType=CHAR},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="empName != null">
+				emp_name = #{empName,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=CHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=TINYINT},
+			</if>
+			<if test="birth != null">
+				birth = #{birth,jdbcType=DATE},
+			</if>
+			<if test="idNumber != null">
+				id_number = #{idNumber,jdbcType=CHAR},
+			</if>
+			<if test="education != null">
+				education = #{education,jdbcType=BIT},
+			</if>
+			<if test="institution != null">
+				institution = #{institution,jdbcType=VARCHAR},
+			</if>
+			<if test="major != null">
+				major = #{major,jdbcType=VARCHAR},
+			</if>
+			<if test="graduationDate != null">
+				graduation_date = #{graduationDate,jdbcType=SMALLINT},
+			</if>
+			<if test="nationality != null">
+				nationality = #{nationality,jdbcType=VARCHAR},
+			</if>
+			<if test="political != null">
+				political = #{political,jdbcType=TINYINT},
+			</if>
+			<if test="maried != null">
+				maried = #{maried,jdbcType=CHAR},
+			</if>
+			<if test="linkman != null">
+				linkman = #{linkman,jdbcType=VARCHAR},
+			</if>
+			<if test="linkmanRelation != null">
+				linkman_relation = #{linkmanRelation,jdbcType=BIT},
+			</if>
+			<if test="linkmanPhone != null">
+				linkman_phone = #{linkmanPhone,jdbcType=CHAR},
+			</if>
+			<if test="nativePlace != null">
+				native_place = #{nativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="leaderId != null">
+				leader_id = #{leaderId,jdbcType=CHAR},
+			</if>
+			<if test="deptId != null">
+				dept_id = #{deptId,jdbcType=CHAR},
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tingyu.erp.entities.Employee">
+		update erp_employee
+		set emp_id = #{empId,jdbcType=CHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		password =
+		#{password,jdbcType=VARCHAR},
+		emp_name = #{empName,jdbcType=VARCHAR},
+		gender = #{gender,jdbcType=CHAR},
+		email = #{email,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=CHAR},
+		address = #{address,jdbcType=VARCHAR},
+		age = #{age,jdbcType=TINYINT},
+		birth = #{birth,jdbcType=DATE},
+		id_number = #{idNumber,jdbcType=CHAR},
+		education =
+		#{education,jdbcType=BIT},
+		institution =
+		#{institution,jdbcType=VARCHAR},
+		major = #{major,jdbcType=VARCHAR},
+		graduation_date = #{graduationDate,jdbcType=SMALLINT},
+		nationality =
+		#{nationality,jdbcType=VARCHAR},
+		political =
+		#{political,jdbcType=TINYINT},
+		maried = #{maried,jdbcType=CHAR},
+		linkman = #{linkman,jdbcType=VARCHAR},
+		linkman_relation =
+		#{linkmanRelation,jdbcType=BIT},
+		linkman_phone =
+		#{linkmanPhone,jdbcType=CHAR},
+		native_place =
+		#{nativePlace,jdbcType=VARCHAR},
+		leader_id = #{leaderId,jdbcType=CHAR},
+		dept_id = #{deptId,jdbcType=CHAR},
+		gmt_create =
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modified =
+		#{gmtModified,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>	
+</mapper>

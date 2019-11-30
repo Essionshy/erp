@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tingyu.erp.mapper.DepartmentMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tingyu.erp.entities.Department">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="dept_id" jdbcType="CHAR" property="deptId" />
+		<result column="dept_name" jdbcType="VARCHAR"
+			property="deptName" />
+		<result column="manager_id" jdbcType="CHAR"
+			property="managerId" />
+		<result column="create_date" jdbcType="DATE"
+			property="createDate" />
+		<result column="dept_tel" jdbcType="VARCHAR" property="deptTel" />
+		<result column="parent_id" jdbcType="CHAR" property="parentId" />
+		<result column="gmt_create" jdbcType="TIMESTAMP"
+			property="gmtCreate" />
+		<result column="gmt_modified" jdbcType="TIMESTAMP"
+			property="gmtModified" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, dept_id, dept_name, manager_id, create_date, dept_tel, parent_id,
+		gmt_create,
+		gmt_modified
+	</sql>
+	<select id="selectByExample"
+		parameterType="com.tingyu.erp.entities.DepartmentExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from erp_department
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erp_department
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<!-- 查询所有部门信息 -->
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from erp_department		
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from erp_department
+		where id = #{id,jdbcType=BIGINT}
+	</delete>	
+	<delete id="deleteByExample"
+		parameterType="com.tingyu.erp.entities.DepartmentExample">
+		delete from erp_department
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert"
+		parameterType="com.tingyu.erp.entities.Department">
+		insert into erp_department (id, dept_id, dept_name,
+		manager_id, create_date, dept_tel,
+		parent_id, gmt_create, gmt_modified
+		)
+		values (#{id,jdbcType=BIGINT}, #{deptId,jdbcType=CHAR},
+		#{deptName,jdbcType=VARCHAR},
+		#{managerId,jdbcType=CHAR}, #{createDate,jdbcType=DATE}, #{deptTel,jdbcType=VARCHAR},
+		#{parentId,jdbcType=CHAR}, #{gmtCreate,jdbcType=TIMESTAMP},
+		#{gmtModified,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tingyu.erp.entities.Department">
+		insert into erp_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="deptId != null">
+				dept_id,
+			</if>
+			<if test="deptName != null">
+				dept_name,
+			</if>
+			<if test="managerId != null">
+				manager_id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="deptTel != null">
+				dept_tel,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create,
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="deptId != null">
+				#{deptId,jdbcType=CHAR},
+			</if>
+			<if test="deptName != null">
+				#{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="managerId != null">
+				#{managerId,jdbcType=CHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=DATE},
+			</if>
+			<if test="deptTel != null">
+				#{deptTel,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=CHAR},
+			</if>
+			<if test="gmtCreate != null">
+				#{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				#{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.tingyu.erp.entities.DepartmentExample"
+		resultType="java.lang.Long">
+		select count(*) from erp_department
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update erp_department
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=BIGINT},
+			</if>
+			<if test="record.deptId != null">
+				dept_id = #{record.deptId,jdbcType=CHAR},
+			</if>
+			<if test="record.deptName != null">
+				dept_name = #{record.deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.managerId != null">
+				manager_id = #{record.managerId,jdbcType=CHAR},
+			</if>
+			<if test="record.createDate != null">
+				create_date = #{record.createDate,jdbcType=DATE},
+			</if>
+			<if test="record.deptTel != null">
+				dept_tel = #{record.deptTel,jdbcType=VARCHAR},
+			</if>
+			<if test="record.parentId != null">
+				parent_id = #{record.parentId,jdbcType=CHAR},
+			</if>
+			<if test="record.gmtCreate != null">
+				gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.gmtModified != null">
+				gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update erp_department
+		set id = #{record.id,jdbcType=BIGINT},
+		dept_id = #{record.deptId,jdbcType=CHAR},
+		dept_name = #{record.deptName,jdbcType=VARCHAR},
+		manager_id = #{record.managerId,jdbcType=CHAR},
+		create_date = #{record.createDate,jdbcType=DATE},
+		dept_tel = #{record.deptTel,jdbcType=VARCHAR},
+		parent_id = #{record.parentId,jdbcType=CHAR},
+		gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tingyu.erp.entities.Department">
+		update erp_department
+		<set>
+			<if test="deptId != null">
+				dept_id = #{deptId,jdbcType=CHAR},
+			</if>
+			<if test="deptName != null">
+				dept_name = #{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="managerId != null">
+				manager_id = #{managerId,jdbcType=CHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=DATE},
+			</if>
+			<if test="deptTel != null">
+				dept_tel = #{deptTel,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=CHAR},
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tingyu.erp.entities.Department">
+		update erp_department
+		set dept_id = #{deptId,jdbcType=CHAR},
+		dept_name = #{deptName,jdbcType=VARCHAR},
+		manager_id = #{managerId,jdbcType=CHAR},
+		create_date = #{createDate,jdbcType=DATE},
+		dept_tel = #{deptTel,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=CHAR},
+		gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByDeptId"
+		parameterType="com.tingyu.erp.entities.Department">
+		update erp_department
+		<set>
+			<if test="deptId != null">
+				dept_id = #{deptId,jdbcType=CHAR},
+			</if>
+			<if test="deptName != null">
+				dept_name = #{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="managerId != null">
+				manager_id = #{managerId,jdbcType=CHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=DATE},
+			</if>
+			<if test="deptTel != null">
+				dept_tel = #{deptTel,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=CHAR},
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where dept_id = #{deptId,jdbcType=BIGINT}
+	</update>
+</mapper>
